@@ -1,6 +1,17 @@
 import * as React from 'react';
 import JSONTreeView from '../src/JSONTreeView';
 export const Wrapper = ()=>{
+    //var json = "simpleNode";
+
+    // var json = [
+    //     "id", "1004", "type","Devil's Food",['data1']
+    // ];
+    // var json = [
+    //     { "id": "1001", "type": "Regular" },
+    //     { "id": "1002", "type": "Chocolate" },
+    //     { "id": "1003", "type": "Blueberry" },
+    //     { "id": "1004", "type": "Devil's Food" }
+    // ];
     var json = {
         "id": "0001",
         "type": "donut",

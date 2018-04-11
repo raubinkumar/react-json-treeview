@@ -1,6 +1,17 @@
 import * as React from 'react';
 export const SimpleNode = (node:any)=>{
-    return(
-        ' '+ node.json
-    )
+    if(node.isParent){
+        return(
+            <ul>
+                <li onClick={node.handleSelect(node.json)}>
+                    {node.json}
+                </li>
+            </ul>
+        )
+    }
+    else{
+        return(
+            node.json
+        )
+    }
 } 

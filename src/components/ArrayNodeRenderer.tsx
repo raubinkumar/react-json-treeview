@@ -1,34 +1,50 @@
 import * as React from 'react';
 import {GetType, GetRenderer} from '../../lib/helper';
 
-const renderElements = (data:any)=>{
+const renderElements = (data:any, index: any, handleSelect: Function)=>{
     let type = GetType(data);
     let Component = GetRenderer(type);
-    return <li><Component json = {data} isParent = {type ==="Array" || type === "Object"}/></li>
+    return <li key = {index} onClick = {(e)=>handleClick(e, data)}><Component json = {data} isParent = {type ==="Array" || type === "Object"} handleSelect = {handleSelect}/></li>
 }
 
-const handleClick = (e:any)=>{
+let handleSelect: Function = undefined;
+
+const handleClick = (e:any, data:any)=>{
     let target =  e.target;
-    console.log(target.parentNode.firstChild);
     if ( target.tagName === "LI") {
         for(var index = 0; index < target.children.length; index++){
             let display = target.children[index].style.display;
             target.children[index].style.display = display === "none" ? "block" : "none";
         }
+        handleSelect(data);
         e.stopPropagation();
-        // target.children.forEach((ele:any) => {
-        //     console.log(ele.style)
-        // });
       }
 }
 
 export const ArrayNode = (data: any)=>{
+    handleSelect = data.handleSelect;
     // display logic here
-    return(
-        <ul onClick = {handleClick} style = {{display: data.isParent ? "block": "none"}}>
-            {data.json.map((ele:any) =>{
-                return renderElements(ele);
-            })}
-        </ul>
-    )
+    if(data.isParent){
+        return(
+            <ul style = {{display: data.isParent ? "block": "none"}}>
+                <li onClick = {(e)=>handleClick(e, data.json)}>[{data.json.length}]
+                    <ul style = {{display: "none"}}>
+                        {data.json.map((ele:any, index:any) =>{
+                            return renderElements(ele, index, data.handleSelect);
+                        })}
+                    </ul>
+                </li>
+            </ul>
+        )
+    }
+    else{
+        return(
+            <ul style = {{display: "none"}}>
+                        {data.json.map((ele:any, index:any) =>{
+                            return renderElements(ele, index, data.handleSelect);
+                        })}
+            </ul>
+        )
+    }
+       
 }

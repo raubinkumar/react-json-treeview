@@ -7,7 +7,6 @@ const renderContent = (data: any)=>{
     let returnContent = [];
 
     for(var k in data.json){
-        debugger;        
         let type = GetType(data.json[k]);
         let Component = GetRenderer(type);
         let symbol = type === "Object" || type === "Array" ? "+ " : "";
@@ -20,28 +19,28 @@ const renderContent = (data: any)=>{
             let length = data.json[k].length;
             typeSymbol = "[" + length + "]";
         }
-
+        let servingData:any = {};
+        servingData[k] = data.json[k];
         returnContent.push(
-                <li key={k}>{symbol}{k}{typeSymbol}
-                    <Component json = {data.json[k]}/>
+                <li key={k} onClick = {(e)=>handleClick(e,servingData)}>{symbol}{k}{typeSymbol}
+                    <Component json = {data.json[k]} handleSelect = {data.handleSelect}/>
                 </li>
         )
     }
     return returnContent;
 }
 
-const handleClick = (e:any)=>{
+let handleSelect: Function = undefined;
+
+const handleClick = (e:any, data: any)=>{
     let target =  e.target;
-    console.log(target.parentNode.firstChild);
     if ( target.tagName === "LI") {
         for(var index = 0; index < target.children.length; index++){
             let display = target.children[index].style.display;
             target.children[index].style.display = display === "none" ? "block" : "none";
         }
+        handleSelect(data);
         e.stopPropagation();
-        // target.children.forEach((ele:any) => {
-        //     console.log(ele.style)
-        // });
       }
 }
 
@@ -50,8 +49,8 @@ const render =(node:any)=>{
     const braket = "{" + Object.keys(node.json).length + "}"
     if(node.isParent){
         return(
-            <ul onClick = {handleClick} style = {{display: node.isParent ? "block": "none"}}>
-                <li>{braket}
+            <ul style = {{display: node.isParent ? "block": "none"}}>
+                <li onClick = {(e)=>handleClick(e, node.json)}>{braket}
                     <ul style = {{display: "none"}}>
                         {...renderContent(node)}
                     </ul>
@@ -61,7 +60,7 @@ const render =(node:any)=>{
     }
     else{
         return(
-            <ul onClick = {handleClick} style = {{display: node.isParent ? "block": "none"}}>
+            <ul style = {{display: node.isParent ? "block": "none"}}>
                 {...renderContent(node)}
             </ul>
         )
@@ -69,6 +68,7 @@ const render =(node:any)=>{
 }
 
 export const ObjectNode = (node:any)=>{
+    handleSelect = node.handleSelect;
     return(
         render(node)
     )

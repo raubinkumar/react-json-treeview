@@ -33,6 +33,11 @@ const renderContent = (data: any)=>{
 let handleSelect: Function = undefined;
 
 const handleClick = (e:any, data: any)=>{
+    let ele = document.getElementsByClassName("json-tree-view-selected-element");
+    if(ele.length > 0){
+        ele[0].className = ele[0].className.replace("json-tree-view-selected-element", '');
+    }
+
     let target =  e.target;
     if(target.tagName === "SPAN"){
         target = target.parentElement;
@@ -49,6 +54,7 @@ const handleClick = (e:any, data: any)=>{
                 target.children[index].style.display = display === "none" ? "block" : "none";
             }
         }
+        target.className = target.className + " json-tree-view-selected-element";
         handleSelect(data);
         e.stopPropagation();
       }
@@ -62,7 +68,7 @@ const render =(node:any)=>{
             <ul style = {{display: node.isParent ? "block": "none"}}>
                 <li onClick = {(e)=>handleClick(e, node.json)}>
                     <span className= "json-treeview-triangle-btn json-treeview-triangle-btn-right"></span>
-                    {braket}
+                        {braket}
                     <ul style = {{display: "none"}}>
                         {...renderContent(node)}
                     </ul>

@@ -36,7 +36,7 @@ ul {
     margin-top: 5px;
     margin-right: 5px;
     border-top: 5px solid transparent;
-    border-left: 6px solid black;
+    border-left: 6px solid #0087E2;
     border-bottom: 5px solid transparent;
   }
 
@@ -47,5 +47,9 @@ ul {
     margin-right: 5px;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 6px solid black;
+    border-top: 6px solid #0000ff;
+  }
+
+  .json-tree-view-selected-element{
+    background-color: #d0d0d0;
   }

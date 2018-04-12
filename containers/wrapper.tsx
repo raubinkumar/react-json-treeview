@@ -38,6 +38,7 @@ export const Wrapper = ()=>{
                 { "id": "5004", "type": "Maple" }
             ]
     };
+
     return(
         <div className="container">
             <JSONTreeView json = {json}/>

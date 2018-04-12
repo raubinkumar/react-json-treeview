@@ -35,7 +35,7 @@ let handleSelect: Function = undefined;
 const handleClick = (e:any, data: any)=>{
     let ele = document.getElementsByClassName("json-tree-view-selected-element");
     if(ele.length > 0){
-        ele[0].className = ele[0].className.replace("json-tree-view-selected-element", '');
+        ele[0].className = ele[0].className.replace(" json-tree-view-selected-element", '');
     }
 
     let target =  e.target;

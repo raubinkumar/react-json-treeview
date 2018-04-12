@@ -4,17 +4,29 @@ import {GetType, GetRenderer} from '../../lib/helper';
 const renderElements = (data:any, index: any, handleSelect: Function)=>{
     let type = GetType(data);
     let Component = GetRenderer(type);
-    return <li key = {index} onClick = {(e)=>handleClick(e, data)}><Component json = {data} isParent = {type ==="Array" || type === "Object"} handleSelect = {handleSelect}/></li>
+    return <li key = {index} onClick = {(e)=>handleClick(e, data)}>
+        <Component json = {data} isParent = {type ==="Array" || type === "Object"} handleSelect = {handleSelect}/>
+    </li>
 }
 
 let handleSelect: Function = undefined;
 
 const handleClick = (e:any, data:any)=>{
     let target =  e.target;
+    if(target.tagName === "SPAN"){
+        target = target.parentElement;
+    }
     if ( target.tagName === "LI") {
         for(var index = 0; index < target.children.length; index++){
-            let display = target.children[index].style.display;
-            target.children[index].style.display = display === "none" ? "block" : "none";
+            if(target.children[index].tagName ==="SPAN"){
+                let className = target.children[index].className;
+                let newClass = className.includes("-right") ? className.replace('right','down') : className.replace('down','right')
+                target.children[index].className = newClass;
+            }
+            else{
+                let display = target.children[index].style.display;
+                target.children[index].style.display = display === "none" ? "block" : "none";
+            }
         }
         handleSelect(data);
         e.stopPropagation();
@@ -26,8 +38,9 @@ export const ArrayNode = (data: any)=>{
     // display logic here
     if(data.isParent){
         return(
-            <ul style = {{display: data.isParent ? "block": "none"}}>
+            <ul style = {{display: "block"}}>
                 <li onClick = {(e)=>handleClick(e, data.json)}>[{data.json.length}]
+                    <span className= "json-treeview-triangle-btn json-treeview-triangle-btn-right"></span>
                     <ul style = {{display: "none"}}>
                         {data.json.map((ele:any, index:any) =>{
                             return renderElements(ele, index, data.handleSelect);

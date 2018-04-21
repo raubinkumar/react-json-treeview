@@ -4,7 +4,7 @@ import {GetType, GetRenderer} from '../../lib/helper';
 const renderElements = (data:any, index: any, handleSelect: Function)=>{
     let type = GetType(data);
     let Component = GetRenderer(type);
-    return <li key = {index} onClick = {(e)=>handleClick(e, data)}>
+    return <li className = "json-tree-view-list-item" key = {index} onClick = {(e)=>handleClick(e, data)}>
         <Component json = {data} isParent = {type ==="Array" || type === "Object"} handleSelect = {handleSelect}/>
     </li>
 }
@@ -20,7 +20,7 @@ const handleClick = (e:any, data:any)=>{
     if(target.tagName === "SPAN"){
         target = target.parentElement;
     }
-    if ( target.tagName === "LI") {
+    if ( target.tagName === "LI" && target.className === "json-tree-view-list-item" ) {
         for(var index = 0; index < target.children.length; index++){
             if(target.children[index].tagName ==="SPAN"){
                 let className = target.children[index].className;
@@ -43,10 +43,10 @@ export const ArrayNode = (data: any)=>{
     // display logic here
     if(data.isParent){
         return(
-            <ul style = {{display: "block"}}>
-                <li onClick = {(e)=>handleClick(e, data.json)}>[{data.json.length}]
+            <ul className = "json-tree-view-list" style = {{display: "block"}}>
+                <li className = "json-tree-view-list-item" onClick = {(e)=>handleClick(e, data.json)}>[{data.json.length}]
                     <span className= "json-treeview-triangle-btn json-treeview-triangle-btn-right"></span>
-                    <ul style = {{display: "none"}}>
+                    <ul className = "json-tree-view-list" style = {{display: "none"}}>
                         {data.json.map((ele:any, index:any) =>{
                             return renderElements(ele, index, data.handleSelect);
                         })}
@@ -57,7 +57,7 @@ export const ArrayNode = (data: any)=>{
     }
     else{
         return(
-            <ul style = {{display: "none"}}>
+            <ul className = "json-tree-view-list" style = {{display: "none"}}>
                         {data.json.map((ele:any, index:any) =>{
                             return renderElements(ele, index, data.handleSelect);
                         })}

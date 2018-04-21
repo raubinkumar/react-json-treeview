@@ -12,8 +12,8 @@ const handleClick = (e:any, data:any)=>{
 export const SimpleNode = (node:any)=>{
     if(node.isParent){
         return(
-            <ul>
-                <li onClick={(e)=>handleClick(e,node)}>
+            <ul className = "json-tree-view-list">
+                <li className = "json-tree-view-list-item" onClick={(e)=>handleClick(e,node)}>
                     {node.json}
                 </li>
             </ul>

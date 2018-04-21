@@ -22,7 +22,7 @@ const renderContent = (data: any)=>{
         let servingData:any = {};
         servingData[k] = data.json[k];
         returnContent.push(
-                <li key={k} onClick = {(e)=>handleClick(e,servingData)}>{arrow}{k}{typeSymbol}
+                <li className= "json-tree-view-list-item" key={k} onClick = {(e)=>handleClick(e,servingData)}>{arrow}{k}{typeSymbol}
                     <Component json = {data.json[k]} handleSelect = {data.handleSelect}/>
                 </li>
         )
@@ -42,7 +42,7 @@ const handleClick = (e:any, data: any)=>{
     if(target.tagName === "SPAN"){
         target = target.parentElement;
     }
-    if ( target.tagName === "LI") {
+    if ( target.tagName === "LI" && target.className === "json-tree-view-list-item") {
         for(var index = 0; index < target.children.length; index++){
             if(target.children[index].tagName ==="SPAN"){
                 let className = target.children[index].className;
@@ -65,11 +65,11 @@ const render =(node:any)=>{
     const braket = "{" + Object.keys(node.json).length + "}"
     if(node.isParent){
         return(
-            <ul style = {{display: node.isParent ? "block": "none"}}>
-                <li onClick = {(e)=>handleClick(e, node.json)}>
+            <ul className = "json-tree-view-list" style = {{display: node.isParent ? "block": "none"}}>
+                <li className = "json-tree-view-list-item" onClick = {(e)=>handleClick(e, node.json)}>
                     <span className= "json-treeview-triangle-btn json-treeview-triangle-btn-right"></span>
                         {braket}
-                    <ul style = {{display: "none"}}>
+                    <ul className = "json-tree-view-list" style = {{display: "none"}}>
                         {...renderContent(node)}
                     </ul>
                 </li>
@@ -78,7 +78,7 @@ const render =(node:any)=>{
     }
     else{
         return(
-            <ul style = {{display: node.isParent ? "block": "none"}}>
+            <ul className = "json-tree-view-list" style = {{display: node.isParent ? "block": "none"}}>
                 {...renderContent(node)}
             </ul>
         )

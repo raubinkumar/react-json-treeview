@@ -1,9 +1,9 @@
-ul {
+ul.json-tree-view-list {
     list-style: none;
     cursor: pointer;
   }
 
-  li {
+  li.json-tree-view-list-item {
       padding-bottom: .25em;
   }
 
